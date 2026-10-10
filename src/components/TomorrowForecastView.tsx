@@ -18,9 +18,11 @@ export function TomorrowForecastView({ item }: TomorrowForecastViewProps) {
       <div className="tomorrow-main">
         <div className="tomorrow-copy">
           <time>{item.date}（{item.weekday}）</time>
+        </div>
+        <div className="tomorrow-condition">
+          <WeatherIcon code={item.condition} size="hero" />
           <strong>{meta.label}</strong>
         </div>
-        <WeatherIcon code={item.condition} size="hero" />
         <div className="tomorrow-metrics">
           <div>
             <span>最高気温</span>
