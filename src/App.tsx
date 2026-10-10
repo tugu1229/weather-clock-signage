@@ -9,6 +9,7 @@ type ScreenMode = 'wide' | 'left' | 'right';
 
 type DisplayCorrection = {
   xScale: number;
+  contentWidthPercent: number;
   debug: boolean;
 };
 
@@ -25,10 +26,11 @@ function getScreenMode(): ScreenMode {
 function getDisplayCorrection(): DisplayCorrection {
   const params = new URLSearchParams(window.location.search);
   const rawScale = Number(params.get('x') ?? '1');
-  const xScale = Number.isFinite(rawScale) ? Math.min(Math.max(rawScale, 0.6), 1.2) : 1;
+  const xScale = Number.isFinite(rawScale) ? Math.min(Math.max(rawScale, 0.35), 1.2) : 1;
 
   return {
     xScale,
+    contentWidthPercent: 100 / xScale,
     debug: params.get('debug') === '1',
   };
 }
@@ -44,7 +46,12 @@ export default function App() {
   return (
     <main
       className={`signage-shell screen-${screenMode} ${hasCorrection ? 'has-x-correction' : ''}`}
-      style={{ '--signage-x-scale': correction.xScale } as CSSProperties}
+      style={
+        {
+          '--signage-x-scale': correction.xScale,
+          '--signage-content-width': `${correction.contentWidthPercent}%`,
+        } as CSSProperties
+      }
     >
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
@@ -58,6 +65,7 @@ export default function App() {
           <span className="debug-circle" />
           <span>screen: {screenMode}</span>
           <span>x: {correction.xScale.toFixed(2)}</span>
+          <span>w: {Math.round(correction.contentWidthPercent)}%</span>
           <span>{window.innerWidth} x {window.innerHeight}</span>
         </div>
       )}
