@@ -12,14 +12,21 @@ export function HourlyForecastView({ items }: HourlyForecastViewProps) {
         <span>Today</span>
         <h1>今日の時間別天気</h1>
       </header>
-      <div className="hourly-grid">
+      <div className="timeline">
         {items.map((item) => (
-          <article className="hourly-item" key={item.time}>
-            <time>{item.time}</time>
-            <WeatherIcon code={item.condition} size="medium" />
-            <strong>{item.temperature}℃</strong>
-            <span className="rain-rate">降水 {item.precipitationProbability}%</span>
-          </article>
+          <div className="tl-col" key={item.time}>
+            <div className="tl-top">
+              <WeatherIcon code={item.condition} size="medium" colored />
+              <strong className="tl-temp">{item.temperature}℃</strong>
+            </div>
+            <span className="tl-dot" aria-hidden="true" />
+            <div className="tl-bot">
+              <time>{item.time}</time>
+              <span className={`rain-rate ${item.precipitationProbability >= 50 ? 'is-wet' : ''}`}>
+                降水 {item.precipitationProbability}%
+              </span>
+            </div>
+          </div>
         ))}
       </div>
     </section>
