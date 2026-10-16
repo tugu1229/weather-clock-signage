@@ -23,7 +23,7 @@ export function ForecastRotator({ activeView, weather }: ForecastRotatorProps) {
         <HourlyForecastView items={weather.hourly} />
       </div>
       <div className={`forecast-layer ${activeView === 'weekly' ? 'is-active' : ''}`}>
-        <WeeklyForecastView items={weather.daily.slice(0, 4)} />
+        <WeeklyForecastView items={weather.daily.slice(1, 5)} />
       </div>
       <div className={`forecast-layer ${activeView === 'tomorrow' ? 'is-active' : ''}`}>
         <TomorrowForecastView item={tomorrow} />
